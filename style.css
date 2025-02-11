@@ -1,0 +1,87 @@
+/* General Styles */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Form Container */
+.container {
+    max-width: 500px;
+    background: #fff;
+    padding: 15px;  /* Reduced padding */
+    margin-top: 10px; /* Reduced margin */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Adjusted for Compact Form */
+#studentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Reduced gap between inputs */
+}
+
+/* Reduce input field height */
+.input-field {
+    margin: 5px 0; /* Less margin between inputs */
+}
+
+.input-field input {
+    height: 20px; /* Reduce input box height */
+    font-size: 14px; /* Reduce font size */
+    padding: 2px 2px; /* Less padding */
+    border-bottom: 1.5px solid #2980b9 !important;
+}
+
+/* Smaller Submit Button */
+button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 0; /* Reduce button padding */
+    background-color: #2980b9 !important;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #1c6ea4 !important;
+}
+
+/* Table Container */
+.container2 {
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+/* Header Styling */
+h3, h4 {
+    color: #2c3e50;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px; /* Reduce font size */
+}
+
+/* Table Styling */
+table {
+    margin-top: 15px;
+    width: 100%;
+}
+
+th {
+    background: #2980b9 !important;
+    color: white;
+}
+
+td, th {
+    text-align: center;
+}
+
+.btn-small {
+    margin: 3px;
+    border-radius: 5px;
+}

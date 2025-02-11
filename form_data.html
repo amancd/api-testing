@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+    
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Student Registration Form -->
+    <div class="container">
+        <h3>Student Registration</h3>
+
+        <form id="studentForm">
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="text" id="name" required>
+                    <label for="name">Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="text" id="rollNo" required>
+                    <label for="rollNo">Roll No</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="text" id="course" required>
+                    <label for="course">Course</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="text" id="college" required>
+                    <label for="college">College</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s6">
+                    <input type="text" id="city" required>
+                    <label for="city">City</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="text" id="state" required>
+                    <label for="state">State</label>
+                </div>
+            </div>
+
+            <button class="btn waves-effect waves-light" type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Student List Table -->
+    <div class="container2">
+        <h4>Students List</h4>
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Roll No</th>
+                    <th>Course</th>
+                    <th>College</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="studentsTable"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const apiUrl = "http://localhost:3000/students";
+
+        document.getElementById("studentForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const data = {
+                name: document.getElementById("name").value,
+                rollNo: document.getElementById("rollNo").value,
+                course: document.getElementById("course").value,
+                college: document.getElementById("college").value,
+                city: document.getElementById("city").value,
+                state: document.getElementById("state").value
+            };
+
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            fetchStudents();
+        });
+
+        async function fetchStudents() {
+            const response = await fetch(apiUrl);
+            const students = await response.json();
+
+            let tableBody = "";
+            students.forEach(student => {
+                tableBody += `
+                    <tr>
+                        <td>${student.name}</td>
+                        <td>${student.rollNo}</td>
+                        <td>${student.course}</td>
+                        <td>${student.college}</td>
+                        <td>${student.city}</td>
+                        <td>${student.state}</td>
+                        <td>
+                            <button class="btn-small blue" onclick="updateStudent('${student.rollNo}')">Edit</button>
+                            <button class="btn-small red" onclick="deleteStudent('${student.rollNo}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById("studentsTable").innerHTML = tableBody;
+        }
+
+        async function deleteStudent(rollNo) {
+            if (!confirm("Are you sure you want to delete this student?")) return;
+            
+            const response = await fetch(`${apiUrl}/${rollNo}`, { method: "DELETE" });
+            const result = await response.json();
+            alert(result.message);
+            fetchStudents();
+        }
+
+        async function updateStudent(rollNo) {
+            const newName = prompt("Enter new name:");
+            if (!newName) return;
+
+            const response = await fetch(`${apiUrl}/${rollNo}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: newName })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            fetchStudents();
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchStudents);
+    </script>
+
+</body>
+</html>
